@@ -60,34 +60,38 @@
     // }
 
 
-// const interes = 0.02;
-// const Sueldo = prompt("Cual es su sueldo actual?: ")
-
-// const cuotas = [];
 
 
-//   for(let i = 1; i <= 36; i++){
-//   cuotas.push(i);
-//   }
+const interes = 0.02;
+const sueldo = parseInt(prompt("Cual es su sueldo actual?: "));
+const cuotasC = [12, 24, 36];
 
-// console.log(cuotas)
+function nuCuotas(sueldo, interes, cuotasC) {
+  cuotasC.forEach((cuota) => console.log(cuota));
 
-// function nuCuotas(sueldo, cuotas){
-//   let 
+  let seleccionarCuotas = parseInt(prompt("elija el número de cuotas: "));
 
-// }
+  if (cuotasC.includes(seleccionarCuotas)) {
+    let denominador = Math.pow(1 + interes, -seleccionarCuotas);
+    let pagoMensual = Math.ceil((sueldo * interes) / (1 - denominador));
+    console.log(`El pago mensual es de: $${pagoMensual}`);
+  } else {
+    console.log("La cuota seleccionada no es válida.");
+  }
+}
 
-
-
-//Puedes expresar la fórmula que describiste en JavaScript de la siguiente manera:
-
-// Datos del préstamo
-var montoPrestamo = 1000; // Monto del préstamo
-var tasaInteresMensual = 0.05; // Tasa de interés mensual (5% expresado como 0.05)
-var plazoMeses = 12; // Plazo del crédito en meses
-
-// Calcula el pago mensual
-var denominador = Math.pow(1 + tasaInteresMensual, -plazoMeses);
-var pagoMensual = Math.ceil((montoPrestamo * tasaInteresMensual) / (1 - denominador));
-
-console.log("El pago mensual es: " + pagoMensual);
+while (true) {
+  if (sueldo >= 4000000) {
+    const montoSolicitado = parseFloat(prompt("Ingrese el monto que necesita: "));
+    nuCuotas(montoSolicitado, interes, cuotasC);
+    console.log(`Su préstamo será de: $${montoSolicitado + 1000000}`);
+  } else if (sueldo >= 3000000) {
+    console.log(`Su préstamo será de: $${sueldo + 1000000}`);
+  } else if (sueldo >= 2000000) {
+    console.log(`Su préstamo será de: $${sueldo + 1000000}`);
+    break;
+  } else {
+    console.log("Su sueldo no cumple con los requisitos del banco para hacer un desembolso.");
+    break;
+  }
+}
