@@ -61,6 +61,18 @@
 
 
 
+const today = new Date()
+
+class Historial{
+constructor(fecha, valor, razon){
+this.fecha = fecha,
+this.valor= valor,
+this.razon = razon
+}
+
+}
+
+const transaccion1 = new Historial(today, 1000000, "celular");
 
 const interes = 0.02;
 const sueldo = parseInt(prompt("Cual es su sueldo actual?: "));
