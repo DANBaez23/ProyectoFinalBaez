@@ -60,50 +60,82 @@
     // }
 
 
+    const today = new Date();
 
-const today = new Date()
+    class Historial {
+        constructor(fecha, valor, razon) {
+            this.fecha = fecha,
+            this.valor = valor,
+            this.razon = razon
+        }
+    }
 
-class Historial{
-constructor(fecha, valor, razon){
-this.fecha = fecha,
-this.valor= valor,
-this.razon = razon
-}
+    const interes = 0.02;
+    const sueldo = parseInt(prompt("Cual es su sueldo actual?: "));
+    const cuotasC = [12, 24, 36];
+    let historialPrestamos = [];
 
-}
+    function guardarHistorial() {
+        localStorage.setItem('historial', JSON.stringify(historialPrestamos));
+    }
 
-const transaccion1 = new Historial(today, 1000000, "celular");
 
-const interes = 0.02;
-const sueldo = parseInt(prompt("Cual es su sueldo actual?: "));
-const cuotasC = [12, 24, 36];
+    function cargarHistorial() {
+        const historialGuardado = localStorage.getItem('historial');
+        if (historialGuardado) {
+            historialPrestamos = JSON.parse(historialGuardado);
+        }
+    }
 
-function nuCuotas(sueldo, interes, cuotasC) {
-  cuotasC.forEach((cuota) => console.log(cuota));
 
-  let seleccionarCuotas = parseInt(prompt("elija el número de cuotas: "));
+    function mostrarHistorial() {
+        const historialTable = document.createElement('table');
+        historialTable.innerHTML = `
+            <tr>
+                <th>Fecha</th>
+                <th>Valor</th>
+                <th>Razón</th>
+            </tr>
+        `;
 
-  if (cuotasC.includes(seleccionarCuotas)) {
-    let denominador = Math.pow(1 + interes, -seleccionarCuotas);
-    let pagoMensual = Math.ceil((sueldo * interes) / (1 - denominador));
-    console.log(`El pago mensual es de: $${pagoMensual}`);
-  } else {
-    console.log("La cuota seleccionada no es válida.");
-  }
-}
+        historialPrestamos.forEach((registro) => {
+            historialTable.innerHTML += `
+                <tr>
+                    <td>${registro.fecha}</td>
+                    <td>${registro.valor}</td>
+                    <td>${registro.razon}</td>
+                </tr>
+            `;
+        });
 
-while (true) {
-  if (sueldo >= 4000000) {
-    const montoSolicitado = parseFloat(prompt("Ingrese el monto que necesita: "));
-    nuCuotas(montoSolicitado, interes, cuotasC);
-    console.log(`Su préstamo será de: $${montoSolicitado + 1000000}`);
-  } else if (sueldo >= 3000000) {
-    console.log(`Su préstamo será de: $${sueldo + 1000000}`);
-  } else if (sueldo >= 2000000) {
-    console.log(`Su préstamo será de: $${sueldo + 1000000}`);
-    break;
-  } else {
-    console.log("Su sueldo no cumple con los requisitos del banco para hacer un desembolso.");
-    break;
-  }
-}
+        document.body.appendChild(historialTable);
+    }
+
+
+    const prestamo = montoSolicitado + 1000000;
+    const nuevoRegistro = new Historial(today, prestamo, 'Préstamo solicitado');
+    historialPrestamos.push(nuevoRegistro);
+    guardarHistorial();
+
+
+    document.getElementById('cuotaSeleccionada').textContent = seleccionarCuotas;
+    document.getElementById('pagoMensual').textContent = `$${pagoMensual}`;
+
+    cargarHistorial(); 
+    document.getElementById('mostrarHistorialBtn').addEventListener('click', mostrarHistorial);
+
+    while (true) {
+        if (sueldo >= 4000000) {
+            const montoSolicitado = parseFloat(prompt("Ingrese el monto que necesita: "));
+            nuCuotas(montoSolicitado, interes, cuotasC);
+            console.log(`Su préstamo será de: $${montoSolicitado + 1000000}`);
+        } else if (sueldo >= 3000000) {
+            console.log(`Su préstamo será de: $${sueldo + 1000000}`);
+        } else if (sueldo >= 2000000) {
+            console.log(`Su préstamo será de: $${sueldo + 1000000}`);
+            break;
+        } else {
+            console.log("Su sueldo no cumple con los requisitos del banco para hacer un desembolso.");
+            break;
+        }
+    }
